@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `modulprofessional`
+--
+
+DROP TABLE IF EXISTS `modulprofessional`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `modulprofessional` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(20) DEFAULT NULL,
+  `id_professor` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_professor` (`id_professor`),
+  CONSTRAINT `modulprofessional_ibfk_1` FOREIGN KEY (`id_professor`) REFERENCES `professors` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `modulprofessional`
+--
+
+LOCK TABLES `modulprofessional` WRITE;
+/*!40000 ALTER TABLE `modulprofessional` DISABLE KEYS */;
+/*!40000 ALTER TABLE `modulprofessional` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `professors`
 --
 
@@ -49,4 +75,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-05 18:38:35
+-- Dump completed on 2024-11-05 19:10:12

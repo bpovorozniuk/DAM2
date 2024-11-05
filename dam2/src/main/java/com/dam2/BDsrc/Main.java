@@ -11,10 +11,11 @@ public class Main {
         Connection connection = DBConnection.createConnection();
 
         
-        Professors profe1 = new Professors("Daniel", "Serbezov");
+        Professors profe1 = new Professors("David", "Fendi");
 
         profe1.addDam2(profe1, connection);
 
+        
         
     }
 }

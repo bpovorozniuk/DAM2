@@ -3,6 +3,7 @@ package com.dam2.BDsrc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class Professors {
@@ -44,16 +45,13 @@ public class Professors {
         }
     }
 
-    public static void listDam2(String tableName, Connection connection) throws SQLException {
-
+    public static void readDam2(String tableName, Connection connection) throws SQLException {
         String sql = "SELECT * FROM ;" + tableName;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             ResultSet resultSet = preparedStatement.executeQuery(sql);
 
-            while (resultSet.next()) {
-                System.out.println();// SOUT DATA
-            }
+            
 
 
 
