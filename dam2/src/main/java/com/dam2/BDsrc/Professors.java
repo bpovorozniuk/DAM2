@@ -16,7 +16,6 @@ public class Professors {
         this.cognoms = cognoms;
     }
 
-    
     public String getNom() {
         return nom;
     }
@@ -32,34 +31,43 @@ public class Professors {
         this.cognoms = cognoms;
     }
 
-    public static void addDam2(Professors professor, Connection connection) {
+    public void addDam2(Professors professor, Connection connection) {
         String sql = "INSERT INTO professors (nom, cognoms) VALUES (?, ?)";
         
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, professor.getNom());
-            preparedStatement.setString(2, professor.getCognoms());
-            preparedStatement.executeUpdate();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, professor.getNom());
+            stmt.setString(2, professor.getCognoms());
+            stmt.executeUpdate();
             System.out.println("El profesor s'ha afegit correctament!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void readDam2(String tableName, Connection connection) throws SQLException {
-        String sql = "SELECT * FROM ;" + tableName;
+    public static void readDam2(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM professors";  
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
 
             
-
-
-
+            while (rs.next()) {
+                
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = metaData.getColumnName(i); 
+                    Object columnValue = rs.getObject(i); 
+                    System.out.print(columnName + ": " + columnValue + " | ");
+                }
+                System.out.println(); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error llegint les dades de la taula 'persones'", e);
         }
-
-
     }
-
     
 }
 
