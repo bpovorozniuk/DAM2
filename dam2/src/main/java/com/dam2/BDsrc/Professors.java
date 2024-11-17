@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Professors {
-    
+
     private String nom;
     private String cognoms;
 
@@ -15,12 +15,15 @@ public class Professors {
         this.cognoms = cognoms;
     }
 
-    
+    public Professors(){
+    };
+
     public String getNom() {
         return nom;
     }
+
     public void setNom(String nom) {
-       this.nom = nom;
+        this.nom = nom;
     }
 
     public String getCognoms() {
@@ -31,37 +34,63 @@ public class Professors {
         this.cognoms = cognoms;
     }
 
-    public static void addDam2(Professors professor, Connection connection) {
-        String sql = "INSERT INTO professors (nom, cognoms) VALUES (?, ?)";
-        
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, professor.getNom());
-            preparedStatement.setString(2, professor.getCognoms());
-            preparedStatement.executeUpdate();
-            System.out.println("El profesor s'ha afegit correctament!");
+    public void addDam2(Professors professorObject,Connection connection) {
+        String query = "INSERT INTO professor (nom) VALUES (?)";
+        try (PreparedStatement statment = connection.prepareStatement(query)) {
+            statment.setString(1, professorObject.getNom());
+            statment.executeUpdate();
+            System.out.println("Professor afegit: " + professorObject.getNom());
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error afegint el professor: " + e.getMessage());
         }
     }
 
-    public static void listDam2(String tableName, Connection connection) throws SQLException {
-
-        String sql = "SELECT * FROM ;" + tableName;
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
-
-            while (resultSet.next()) {
-                System.out.println();// SOUT DATA
+    public void deleteDam2(int professorId,Connection connection) {
+        String query = "DELETE FROM professor WHERE id = ?";
+        try (PreparedStatement statment = connection.prepareStatement(query)) {
+            statment.setInt(1, professorId);
+            int rowsAffected = statment.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Professor eliminat amb ID: " + professorId);
+            } else {
+                System.out.println("No s'ha trobat cap professor amb ID: " + professorId);
             }
-
-
-
+        } catch (SQLException e) {
+            System.err.println("Error eliminant el professor: " + e.getMessage());
         }
-
-
     }
 
-    
-}
+    public void updateDam2(int professorId, String newName,Connection connection) {
+        String query = "UPDATE professor SET nom = ? WHERE id = ?";
+        try (PreparedStatement statment = connection.prepareStatement(query)) {
+            statment.setString(1, newName);
+            statment.setInt(2, professorId);
+            int rowsAffected = statment.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Professor actualitzat amb ID: " + professorId + ", Nom: " + newName);
+            } else {
+                System.out.println("No s'ha trobat cap professor amb ID: " + professorId);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error actualitzant el professor: " + e.getMessage());
+        }
+    }
 
+    public void readDam2(Connection connection) {
+        String query = "SELECT id, nom FROM professor";
+        try (PreparedStatement statment = connection.prepareStatement(query);
+                ResultSet rs = statment.executeQuery(query)) {
+            System.out.println("Llista de professors:");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("nom");
+                String surname = rs.getString("cognoms");
+
+                System.out.println("- ID: " + id + ", Nom: " + name + ", Cognoms" + surname);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error llistant els professors: " + e.getMessage());
+        }
+    }
+
+}

@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `modulsprofessionals`
+--
+
+DROP TABLE IF EXISTS `modulsprofessionals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `modulsprofessionals` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
+  `id_professor` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_professor` (`id_professor`),
+  CONSTRAINT `modulsprofessionals_ibfk_1` FOREIGN KEY (`id_professor`) REFERENCES `professors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `modulsprofessionals`
+--
+
+LOCK TABLES `modulsprofessionals` WRITE;
+/*!40000 ALTER TABLE `modulsprofessionals` DISABLE KEYS */;
+INSERT INTO `modulsprofessionals` VALUES (1,'Programació',1),(2,'Bases de Dades',2),(3,'Xarxes',3);
+/*!40000 ALTER TABLE `modulsprofessionals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `professors`
 --
 
@@ -27,7 +54,7 @@ CREATE TABLE `professors` (
   `nom` varchar(20) DEFAULT NULL,
   `cognoms` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +63,7 @@ CREATE TABLE `professors` (
 
 LOCK TABLES `professors` WRITE;
 /*!40000 ALTER TABLE `professors` DISABLE KEYS */;
-INSERT INTO `professors` VALUES (1,'Bohdan','Povorozniuk'),(2,'Daniel','Serbezov');
+INSERT INTO `professors` VALUES (1,'Bohdan','Povorozniuk'),(2,'Daniel','Serbezov'),(3,'Joan',NULL),(4,'Maria',NULL),(5,'Carles',NULL);
 /*!40000 ALTER TABLE `professors` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-05 18:38:35
+-- Dump completed on 2024-11-17 17:19:38
