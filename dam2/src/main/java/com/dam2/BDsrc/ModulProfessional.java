@@ -4,7 +4,7 @@ import java.sql.*;
 public class ModulProfessional {
 
     public void addDam2(String moduleName, Integer idProfessor,Connection connection) {
-        String query = "INSERT INTO moduls_professionals (nom, id_professor) VALUES (?, ?)";
+        String query = "INSERT INTO modulsprofessionals (nom, id_professor) VALUES (?, ?)";
         try (PreparedStatement statment = connection.prepareStatement(query)) {
             statment.setString(1, moduleName);
             if (idProfessor != null) {
@@ -19,9 +19,28 @@ public class ModulProfessional {
         }
     }
 
+    public void readDam2(Connection connection) {
+        String query = "SELECT id, nom, professor_id FROM moduls";
+        
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            
+            System.out.println("\n=== LLISTA DE MÒDULS PROFESSIONALS ===");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nom = resultSet.getString("nom");
+                int professorId = resultSet.getInt("professor_id");
+                String professorInfo = (professorId == 0) ? "Cap professor assignat" : "Professor ID: " + professorId;
+                System.out.println("ID: " + id + ", Nom: " + nom + ", " + professorInfo);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en llistar els mòduls: " + e.getMessage());
+        }
+    }
+
     // Mètode per eliminar un mòdul
     public void deleteDam2(String moduleName,Connection connection) {
-        String query = "DELETE FROM moduls_professionals WHERE nom = ?";
+        String query = "DELETE FROM modulsprofessionals WHERE nom = ?";
         try (PreparedStatement statment = connection.prepareStatement(query)) {
             statment.setString(1, moduleName);
             int rowsAffected = statment.executeUpdate();
@@ -37,7 +56,7 @@ public class ModulProfessional {
 
     // Mètode per actualitzar un mòdul
     public void updateDam2(String oldModuleName, String newModuleName, Integer idProfessor,Connection connection) {
-        String query = "UPDATE moduls_professionals SET nom = ?, id_professor = ? WHERE nom = ?";
+        String query = "UPDATE modulsprofessionals SET nom = ?, id_professor = ? WHERE nom = ?";
         try (PreparedStatement statment = connection.prepareStatement(query)) {
             statment.setString(1, newModuleName);
             if (idProfessor != null) {

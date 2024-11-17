@@ -35,7 +35,7 @@ public class Professors {
     }
 
     public void addDam2(Professors professorObject,Connection connection) {
-        String query = "INSERT INTO professor (nom) VALUES (?)";
+        String query = "INSERT INTO professors (nom) VALUES (?)";
         try (PreparedStatement statment = connection.prepareStatement(query)) {
             statment.setString(1, professorObject.getNom());
             statment.executeUpdate();
@@ -46,7 +46,7 @@ public class Professors {
     }
 
     public void deleteDam2(int professorId,Connection connection) {
-        String query = "DELETE FROM professor WHERE id = ?";
+        String query = "DELETE FROM professors WHERE id = ?";
         try (PreparedStatement statment = connection.prepareStatement(query)) {
             statment.setInt(1, professorId);
             int rowsAffected = statment.executeUpdate();
@@ -61,7 +61,7 @@ public class Professors {
     }
 
     public void updateDam2(int professorId, String newName,Connection connection) {
-        String query = "UPDATE professor SET nom = ? WHERE id = ?";
+        String query = "UPDATE professors SET nom = ? WHERE id = ?";
         try (PreparedStatement statment = connection.prepareStatement(query)) {
             statment.setString(1, newName);
             statment.setInt(2, professorId);
@@ -77,7 +77,7 @@ public class Professors {
     }
 
     public void readDam2(Connection connection) {
-        String query = "SELECT id, nom FROM professor";
+        String query = "SELECT id, nom FROM professors";
         try (PreparedStatement statment = connection.prepareStatement(query);
                 ResultSet rs = statment.executeQuery(query)) {
             System.out.println("Llista de professors:");
